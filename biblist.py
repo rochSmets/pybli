@@ -225,7 +225,7 @@ class biblist(list):
             bf.write('\n')
 
 
-    def key(self, identry, keylist=-1):
+    def addkey(self, identry, keylist=-1):
 
         """
         this method is intended to add keywords by calling the pick method
@@ -252,7 +252,7 @@ class biblist(list):
         self.show(identry)
 
 
-    def notes(self, identry):
+    def addnotes(self, identry):
 
         """
         call a vim editor in order to edit existing notes
@@ -387,7 +387,7 @@ class biblist(list):
         print('')
 
 
-    def nonote(self):
+    def nonotes(self):
 
         """
         display the entries w/o note
@@ -405,49 +405,11 @@ class biblist(list):
         print('')
 
 
-    def autofile(self):
-
-        """
-        set the full filename for the associated pdf
-        TODO : might be removed in close future
-
-        """
-
-        toremove = list(string.ascii_lowercase)+['+', '.']
-
-        for ref in range(len(self)):
-
-            name = self[ref]['ID']
-
-            for i in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+']:
-                name = name.replace(i, "")
-            filename = os.path.join(os.path.expandvars('$PYBLIO_AUT'), name, self[ref]['ID']+'.pdf')
-
-            self[ref].update({str('file'): str(filename)})
-            print('{0:24}  : set file to {1}'.format(self[ref]['ID'], filename))
-
-
-    def entry(self, identry):
-
-        """
-        return the dict of the (mandatory) entry (which is the 'ID' string)
-        TODO : might be removed in close future
-
-        """
-
-        if type(identry) is str:
-            for item in self:
-                if item['ID'] == identry:
-                    return item
-        else:
-           raise TypeError('ID must be a str')
-
-
     def set(self, identry, field, arg):
 
         """
         set 'arg' in the 'field' of 'identry'
-        TODO : might be removed in close future
+        not directly called, but needed in addnotes and addkeys
 
         """
 
@@ -465,64 +427,102 @@ class biblist(list):
                              \'int\' (the index of the entry in the biblist)')
 
 
-    def add(self, identry, field, arg):
+    #def autofile(self):
 
-        """
-        add 'arg' in the 'field' of 'identry'
-        TODO : might be removed in close future
+    #    """
+    #    set the full filename for the associated pdf
+    #    TODO : might be removed in close future
 
-        """
+    #    """
 
-        if type(identry) == str:
-            for i in range(len(self)):
-                if self[i]['ID'] == identry:
-                    oldarg = self[i][field]
-                    newarg = oldarg + str(', '+arg)
-                    self[i].update({str(field): str(newarg)})
+    #    toremove = list(string.ascii_lowercase)+['+', '.']
 
-        elif type(identry) == int:
-            oldarg = self[identry][field]
-            newarg = oldarg + str(', '+arg)
-            self[identry].update({str(field): str(newarg)})
-            self[identry].update({str(field): str(arg)})
+    #    for ref in range(len(self)):
 
-        else:
-            raise TypeError('ID entry has to be a \'str\' (the bibcode) or a\
-                             \'int\' (the index of the entry in the biblist)')
+    #        name = self[ref]['ID']
+
+    #        for i in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+']:
+    #            name = name.replace(i, "")
+    #        filename = os.path.join(os.path.expandvars('$PYBLIO_AUT'), name, self[ref]['ID']+'.pdf')
+
+    #        self[ref].update({str('file'): str(filename)})
+    #        print('{0:24}  : set file to {1}'.format(self[ref]['ID'], filename))
 
 
-    def join(self, entrystring):
+    #def entry(self, identry):
 
-        """
-        join an entry (of string type) at the end of the biblist
-        TODO : might be removed in close future
+    #    """
+    #    return the dict of the (mandatory) entry (which is the 'ID' string)
+    #    TODO : might be removed in close future
 
-        """
+    #    """
+
+    #    if type(identry) is str:
+    #        for item in self:
+    #            if item['ID'] == identry:
+    #                return item
+    #    else:
+    #       raise TypeError('ID must be a str')
 
 
-        entrystring = entrystring.replace('month = jan', 'month = {jan}')
-        entrystring = entrystring.replace('month = fev', 'month = {fev}')
-        entrystring = entrystring.replace('month = mar', 'month = {mar}')
-        entrystring = entrystring.replace('month = apr', 'month = {apr}')
-        entrystring = entrystring.replace('month = may', 'month = {may}')
-        entrystring = entrystring.replace('month = jun', 'month = {jun}')
-        entrystring = entrystring.replace('month = jul', 'month = {jul}')
-        entrystring = entrystring.replace('month = aug', 'month = {aug}')
-        entrystring = entrystring.replace('month = sep', 'month = {sep}')
-        entrystring = entrystring.replace('month = oct', 'month = {oct}')
-        entrystring = entrystring.replace('month = nov', 'month = {nov}')
-        entrystring = entrystring.replace('month = dec', 'month = {dec}')
+    #def add(self, identry, field, arg):
 
-        bt = loads(entrystring)
-        self.append(bt.entries[0])
+    #    """
+    #    add 'arg' in the 'field' of 'identry'
+    #    TODO : might be removed in close future
 
-        if 'keyword' in bt.entries[0]:
-            pass
-        else:
-            bt.entries[0].update({str('keyword'): str('TBD')})
+    #    """
 
-        if 'note' in bt.entries[0]:
-            pass
-        else:
-            bt.entries[0].update({str('note'): str('None')})
+    #    if type(identry) == str:
+    #        for i in range(len(self)):
+    #            if self[i]['ID'] == identry:
+    #                oldarg = self[i][field]
+    #                newarg = oldarg + str(', '+arg)
+    #                self[i].update({str(field): str(newarg)})
+
+    #    elif type(identry) == int:
+    #        oldarg = self[identry][field]
+    #        newarg = oldarg + str(', '+arg)
+    #        self[identry].update({str(field): str(newarg)})
+    #        self[identry].update({str(field): str(arg)})
+
+    #    else:
+    #        raise TypeError('ID entry has to be a \'str\' (the bibcode) or a\
+    #                         \'int\' (the index of the entry in the biblist)')
+
+
+    #def join(self, entrystring):
+
+    #    """
+    #    join an entry (of string type) at the end of the biblist
+    #    TODO : might be removed in close future
+
+    #    """
+
+
+    #    entrystring = entrystring.replace('month = jan', 'month = {jan}')
+    #    entrystring = entrystring.replace('month = fev', 'month = {fev}')
+    #    entrystring = entrystring.replace('month = mar', 'month = {mar}')
+    #    entrystring = entrystring.replace('month = apr', 'month = {apr}')
+    #    entrystring = entrystring.replace('month = may', 'month = {may}')
+    #    entrystring = entrystring.replace('month = jun', 'month = {jun}')
+    #    entrystring = entrystring.replace('month = jul', 'month = {jul}')
+    #    entrystring = entrystring.replace('month = aug', 'month = {aug}')
+    #    entrystring = entrystring.replace('month = sep', 'month = {sep}')
+    #    entrystring = entrystring.replace('month = oct', 'month = {oct}')
+    #    entrystring = entrystring.replace('month = nov', 'month = {nov}')
+    #    entrystring = entrystring.replace('month = dec', 'month = {dec}')
+
+    #    bt = loads(entrystring)
+    #    self.append(bt.entries[0])
+
+    #    if 'keyword' in bt.entries[0]:
+    #        pass
+    #    else:
+    #        bt.entries[0].update({str('keyword'): str('TBD')})
+
+    #    if 'note' in bt.entries[0]:
+    #        pass
+    #    else:
+    #        bt.entries[0].update({str('note'): str('None')})
 

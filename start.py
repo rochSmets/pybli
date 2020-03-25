@@ -9,7 +9,7 @@ key = os.path.expandvars('$PYBLIO_KEY')
 from bibtexparser.bwriter import BibTexWriter
 from bibtexparser.bibdatabase import BibDatabase
 
-from theme import *
+#from theme import *
 from keys import *
 from biblist import *
 
