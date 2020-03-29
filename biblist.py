@@ -71,9 +71,11 @@ class biblist(list):
             for item in self:
                 if item['ID'] == identry:
                     dic = item
+                    index = self.index(item)
 
         elif type(identry) == int:
             dic = self[identry]
+            index = identry
 
         else:
             raise TypeError('ID entry has to be a \'str\' (the bibcode) or a\
@@ -81,6 +83,7 @@ class biblist(list):
 
         print('')
         print('ID                        : {0}'.format(dic['ID']))
+        print('index                     : {0}'.format(index))
         print('author                    : {0}'.format(dic['author']))
         print('title                     : {0}'.format(dic['title']))
         print('year                      : {0}'.format(dic['year']))
@@ -312,9 +315,11 @@ class biblist(list):
             found = False
             for i in range(len(fields)):
 
-                if fields[i] == 'keyword' and args[i] == '':
-                    ak = keys()
-                    args[i] = ak.pick()
+
+                if fields[i] == 'keyword':
+                    if args[i] == '':
+                        ak = keys()
+                        args[i] = ak.pick()
 
                 if type(args[i]) == str:
                     args[i] = list({args[i]})
@@ -326,8 +331,8 @@ class biblist(list):
 
                 else:
                     for arg in args[i]:
-                        if arg.lower() not in self[ref][fields[i]].lower():
-                            found *= False
+                        if arg.lower() in self[ref][fields[i]].lower():
+                            found = True
 
             if found is True:
                 items.append(ref)
