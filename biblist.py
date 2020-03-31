@@ -236,13 +236,24 @@ class biblist(list):
         if existing, former keywords are added by default
 
         """
+
+
         from keys import keys
 
         if keylist == -1:
             ak = keys()
-            out = ak.pick(self[identry]['keyword'])
         else:
             raise NotImplementedError('keylist != -1 not yet implemented')
+
+        if type(identry) == int:
+            out = ak.pick(self[identry]['keyword'])
+
+        elif type(identry) == str:
+            for item in self:
+                if item['ID'] == identry:
+                    dic = item
+                    index = self.index(item)
+                    out = ak.pick(self[index]['keyword'])
 
         arg = ''
 
