@@ -274,7 +274,16 @@ class biblist(list):
 
         """
 
-        out = self[identry]['note']
+        if type(identry) == int:
+            index = identry
+
+        elif type(identry) == str:
+            for item in self:
+                if item['ID'] == identry:
+                    dic = item
+                    index = self.index(item)
+
+        out = self[index]['note']
         if out == 'None' :
             out = ''
 
