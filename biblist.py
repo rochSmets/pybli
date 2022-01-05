@@ -296,7 +296,7 @@ class biblist(list):
             tf.write(arg)
             tf.flush()
 
-            subprocess.call([EDITOR, tf.name])
+            subprocess.run([EDITOR, tf.name])
 
             tf.seek(0)
             notes = tf.read()
@@ -305,14 +305,14 @@ class biblist(list):
             self.show(identry)
 
 
-    def find(self, fields, args):
+    def find(self, key, value):
 
         """
-        find all entries which 'fields' equals 'args':
-            - 'fields' and 'args' need to have the same length
+        find all entries which 'key' equals 'value':
+            - 'key' and 'value' need to have the same length
               (whatever list or tuple)
             - they can also be a single string
-        all the 'args' of 'fields' has to be in the ref to pick this one...
+        all the 'value' of 'key' has to be in the ref to pick this one...
         except for 'author', for which at least one of the given author
         has to be in the ref to pick it
 
@@ -320,38 +320,38 @@ class biblist(list):
 
         from keys import keys
 
-        if type(fields) is str:
-            fields = list({fields})
+        if type(key) is str:
+            key = list({key})
 
-        if type(args) is str:
-            args = list({args})
+        if type(value) is str:
+            value = list({value})
 
-        if len(fields) != len(args):
-            raise ValueError("fields and args have to be lists of same length")
+        if len(key) != len(value):
+            raise ValueError("key and value have to be lists of same length")
 
         items = []
         for ref in range(len(self)):
 
             found = False
-            for i in range(len(fields)):
+            for i in range(len(key)):
 
 
-                if fields[i] == 'keyword':
-                    if args[i] == '':
+                if key[i] == 'keyword':
+                    if value[i] == '':
                         ak = keys()
-                        args[i] = ak.pick()
+                        value[i] = ak.pick()
 
-                if type(args[i]) == str:
-                    args[i] = list({args[i]})
+                if type(value[i]) == str:
+                    value[i] = list({value[i]})
 
-                if fields[i] == 'author':
-                    for arg in args[i]:
+                if key[i] == 'author':
+                    for arg in value[i]:
                         if arg.lower() in self[ref]['author'].lower():
                             found = True
 
                 else:
-                    for arg in args[i]:
-                        if arg.lower() in self[ref][fields[i]].lower():
+                    for arg in value[i]:
+                        if arg.lower() in self[ref][key[i]].lower():
                             found = True
 
             if found is True:

@@ -118,7 +118,7 @@ class keys(dict):
 
             tf.flush()
 
-            subprocess.call([EDITOR, tf.name])
+            subprocess.run([EDITOR, tf.name])
 
             tf.seek(0)
             all_keys = tf.read().splitlines()
