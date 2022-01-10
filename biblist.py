@@ -90,9 +90,9 @@ class biblist(list):
         print('type                      : {0}'.format(dic['ENTRYTYPE']))
         print('keyword                   : {0}'.format(dic['keyword']))
 
-        notes = dic['note'].split("\n")
+        notes = dic['notes'].split("\n")
         for note in notes:
-            print('note                      : {0}'.format(note))
+            print('notes                     : {0}'.format(note))
 
         if dic['ENTRYTYPE'] == 'article' :
             print('journal                   : {0}'.format(dic['journal']))
@@ -106,7 +106,7 @@ class biblist(list):
             - remove the `adsnote`, 'eprint', 'archiveprefix', 'primaryclass',
               'eid' and 'file' entries
             - put 'TBD' for 'keyword' if empty or not existing
-            - put 'None' for 'note' if empty or not existing
+            - put 'None' for 'notes' if empty or not existing
             - make sure mandatory fields are in the biblist (only for article)
 
         """
@@ -148,11 +148,11 @@ class biblist(list):
                 self[i].update({str('keyword'): str('TBD')})
                 print('{0:24}  : set \'TBD\' for \'keyword\''.format(self[i]['ID']))
 
-            if 'note' in self[i]:
+            if 'notes' in self[i]:
                 pass
             else:
-                self[i].update({str('note'): str('None')})
-                print('{0:24}  : set \'None\' for \'note\''.format(self[i]['ID']))
+                self[i].update({str('notes'): str('None')})
+                print('{0:24}  : set \'None\' for \'notes\''.format(self[i]['ID']))
 
         articleList = ['ID', 'author', 'journal', 'month', 'pages', 'title', 'volume', 'year']
 
@@ -283,7 +283,7 @@ class biblist(list):
                     dic = item
                     index = self.index(item)
 
-        out = self[index]['note']
+        out = self[index]['notes']
         if out == 'None' :
             out = ''
 
@@ -301,7 +301,7 @@ class biblist(list):
             tf.seek(0)
             notes = tf.read()
 
-            self.set(identry, 'note', notes.decode("utf-8"))
+            self.set(identry, 'notes', notes.decode("utf-8"))
             self.show(identry)
 
 
@@ -415,18 +415,18 @@ class biblist(list):
     def nonotes(self):
 
         """
-        display the entries w/o note
+        display the entries w/o notes
 
         """
 
         items = []
         for ref in range(len(self)):
-            if self[ref]['note'] == 'None':
+            if self[ref]['notes'] == 'None':
                 items.append(ref)
 
         print('')
         for ref in items:
-                print('{0:24}  : no note ({1:3})'.format(self[ref]['ID'], ref))
+                print('{0:24}  : no notes ({1:3})'.format(self[ref]['ID'], ref))
         print('')
 
 
@@ -546,8 +546,8 @@ class biblist(list):
     #    else:
     #        bt.entries[0].update({str('keyword'): str('TBD')})
 
-    #    if 'note' in bt.entries[0]:
+    #    if 'notes' in bt.entries[0]:
     #        pass
     #    else:
-    #        bt.entries[0].update({str('note'): str('None')})
+    #        bt.entries[0].update({str('notes'): str('None')})
 
