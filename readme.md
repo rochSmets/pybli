@@ -14,9 +14,8 @@ in order to be used in interactive mode from a python3 shell, you could use
 a command such as `python3 -i $HOME/Hub/pybli/start.py`
 
 You should also have 4 env var in your `bashrc` :
-`PYBLIO_BIB` containing the dir where you have your bibfiles,
-`PYBLIO_KEY` containing the dir where you have your keyfiles (containing
-the lists of keywords),
-`PYBLIO_AUT` containing the dir where you have all the pdf of the refs and
-`PYBLIO_VIE` containing the path of the viewer to display the pdf
+`PYBLIO_BIB` dir where the bibfiles are,
+`PYBLIO_KEY` dir where the keyfiles are (files with the lists of keywords),
+`PYBLIO_AUT` dir where you have the pdf (below the author dir name)
+`PYBLIO_VIE` path of the viewer to display the pdf
 

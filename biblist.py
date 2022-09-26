@@ -172,7 +172,7 @@ class biblist(list):
     def display(self, identry):
 
         """
-        call mupdf for the entry (either an int or the 'ID' string)
+        call the pdf viewer for the entry (either an int or the 'ID' string)
 
         """
 
